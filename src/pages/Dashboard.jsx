@@ -157,6 +157,14 @@ export default function Dashboard({
     setShowExpenseModal(false);
   };
 
+  const handleDeleteExpense = (id, description) => {
+    const confirmDelete = window.confirm(`"${description}" xarajatini o'chirmoqchimisiz?`);
+    if (confirmDelete) {
+      setExpenses(prev => prev.filter(e => e.id !== id));
+      addNotification(`Xarajat o'chirildi: ${description}.`);
+    }
+  };
+
   const activeProduct = products.find(p => p.id === parseInt(selectedProductId));
   const estimatedCostKRW = activeProduct ? activeProduct.priceInKRW * batchQuantity : 0;
 
@@ -336,8 +344,15 @@ export default function Dashboard({
                     </div>
                     <span className="text-[8px] text-on-surface-variant/65 block mt-0.5">{exp.date}</span>
                   </div>
-                  <div className="text-right">
+                  <div className="flex items-center gap-2">
                     <span className="font-extrabold text-primary">-{formatMoney(exp.amountKRW)}</span>
+                    <button
+                      onClick={() => handleDeleteExpense(exp.id, exp.description)}
+                      className="w-5 h-5 bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/10 rounded-full flex items-center justify-center cursor-pointer transition-all"
+                      title="Xarajatni o'chirish"
+                    >
+                      <span className="material-symbols-outlined text-[10px]">delete</span>
+                    </button>
                   </div>
                 </div>
               ))
