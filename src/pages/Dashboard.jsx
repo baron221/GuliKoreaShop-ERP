@@ -438,7 +438,7 @@ export default function Dashboard({
       {/* CREATE NEW IMPORT ORDER MODAL */}
       {showBatchModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm">
-          <div className="w-full max-w-md glass-panel-heavy p-6 rounded-2xl border border-white/50 shadow-2xl relative">
+          <div className="w-full max-w-md glass-panel-heavy p-6 rounded-2xl border border-white/50 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <h3 className="text-base font-bold text-on-surface mb-4">Ta'minotchidan yangi import buyurtmasi yaratish</h3>
             
             <form onSubmit={handleCreateBatch} className="space-y-4">
@@ -498,7 +498,7 @@ export default function Dashboard({
       {/* ADD NEW EXPENSE MODAL */}
       {showExpenseModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm">
-          <div className="w-full max-w-md glass-panel-heavy p-6 rounded-2xl border border-white/50 shadow-2xl relative text-left">
+          <div className="w-full max-w-md glass-panel-heavy p-6 rounded-2xl border border-white/50 shadow-2xl relative text-left max-h-[90vh] overflow-y-auto">
             <h3 className="text-base font-bold text-on-surface mb-4">Yangi xarajat kiritish</h3>
             
             <form onSubmit={handleAddExpenseSubmit} className="space-y-4">

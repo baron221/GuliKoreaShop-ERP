@@ -59,7 +59,7 @@ export default function TopBar({ notifications, setNotifications, displayCurrenc
           </button>
 
           {showDropdown && (
-            <div className="absolute right-0 mt-2 w-80 glass-panel-heavy rounded-xl p-4 shadow-xl z-50 border border-white/40 max-h-96 overflow-y-auto">
+            <div className="absolute right-0 mt-2 w-[calc(100vw-2.5rem)] sm:w-80 glass-panel-heavy rounded-xl p-4 shadow-xl z-50 border border-white/40 max-h-96 overflow-y-auto">
               <div className="flex justify-between items-center mb-3">
                 <h4 className="font-semibold text-on-surface text-sm">Bildirishnomalar</h4>
                 {notifications.length > 0 && (

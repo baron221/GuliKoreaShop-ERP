@@ -746,7 +746,7 @@ export default function Customers({
       {/* EDIT CLIENT DETAILS MODAL */}
       {editingClient && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm">
-          <div className="w-full max-w-md glass-panel-heavy p-6 rounded-2xl border border-white/50 shadow-2xl relative text-left">
+          <div className="w-full max-w-md glass-panel-heavy p-6 rounded-2xl border border-white/50 shadow-2xl relative text-left max-h-[90vh] overflow-y-auto">
             <h3 className="text-base font-bold text-on-surface mb-4">Mijoz ma'lumotlarini tahrirlash</h3>
             
             <form onSubmit={handleSaveEdit} className="space-y-4">
@@ -795,7 +795,7 @@ export default function Customers({
       {/* RECEIVE PAYMENT MODAL */}
       {payingClient && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm">
-          <div className="w-full max-w-md glass-panel-heavy p-6 rounded-2xl border border-white/50 shadow-2xl relative text-left">
+          <div className="w-full max-w-md glass-panel-heavy p-6 rounded-2xl border border-white/50 shadow-2xl relative text-left max-h-[90vh] overflow-y-auto">
             <h3 className="text-base font-bold text-on-surface mb-2">{payingClient.name} uchun to'lov qabul qilish</h3>
             <p className="text-[10px] text-error font-extrabold uppercase mb-4 tracking-wider">
               Joriy qarz balansi: {formatMoney(payingClient.totalPurchasedKRW - payingClient.totalPaidKRW)}
@@ -862,7 +862,7 @@ export default function Customers({
       {/* NEW PURCHASE TRANSACTION MODAL */}
       {purchasingClient && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm">
-          <div className="w-full max-w-md glass-panel-heavy p-6 rounded-2xl border border-white/50 shadow-2xl relative text-left">
+          <div className="w-full max-w-md glass-panel-heavy p-6 rounded-2xl border border-white/50 shadow-2xl relative text-left max-h-[90vh] overflow-y-auto">
             <h3 className="text-base font-bold text-on-surface mb-4">{purchasingClient.name} uchun yangi xarid qo'shish</h3>
             
             <form onSubmit={handleAddPurchaseSubmit} className="space-y-4">

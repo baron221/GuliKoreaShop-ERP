@@ -701,7 +701,7 @@ export default function Suppliers({
       {/* EDIT SUPPLIER NAME MODAL */}
       {editingSupplier && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm">
-          <div className="w-full max-w-md glass-panel-heavy p-6 rounded-2xl border border-white/50 shadow-2xl relative text-left animate-fade-in">
+          <div className="w-full max-w-md glass-panel-heavy p-6 rounded-2xl border border-white/50 shadow-2xl relative text-left animate-fade-in max-h-[90vh] overflow-y-auto">
             <h3 className="text-base font-bold text-on-surface mb-4">Ta'minotchi ma'lumotlarini tahrirlash</h3>
             
             <form onSubmit={handleSaveEdit} className="space-y-4">
@@ -739,7 +739,7 @@ export default function Suppliers({
       {/* RECEIVE NEW GOODS (IMPORT ORDER) TRANSACTION MODAL */}
       {importingSupplier && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm">
-          <div className="w-full max-w-md glass-panel-heavy p-6 rounded-2xl border border-white/50 shadow-2xl relative text-left animate-fade-in">
+          <div className="w-full max-w-md glass-panel-heavy p-6 rounded-2xl border border-white/50 shadow-2xl relative text-left animate-fade-in max-h-[90vh] overflow-y-auto">
             <h3 className="text-base font-bold text-on-surface mb-4">{importingSupplier.name} ta'minotchidan yangi tovar qabul qilish</h3>
             
             <form onSubmit={handleAddImportSubmit} className="space-y-4">
