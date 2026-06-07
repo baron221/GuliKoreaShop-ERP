@@ -205,6 +205,9 @@ export default function App() {
   useEffect(() => {
     async function loadData() {
       try {
+        if (!supabase) {
+          throw new Error('Supabase client is not initialized (missing environment variables).');
+        }
         console.log('Supabase: Ma\'lumotlarni yuklash boshlandi...');
 
         // Fetch products
