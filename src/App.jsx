@@ -193,6 +193,33 @@ export default function App() {
       });
   }, []);
 
+  // Initialize Telegram WebApp on mount
+  useEffect(() => {
+    if (window.Telegram && window.Telegram.WebApp) {
+      const tg = window.Telegram.WebApp;
+      tg.ready();
+      tg.expand(); // Expand Mini App to full container height
+    }
+  }, []);
+
+  // Connect Active Tab Navigation with Telegram native Back Button
+  useEffect(() => {
+    if (window.Telegram && window.Telegram.WebApp) {
+      const tg = window.Telegram.WebApp;
+      if (activeTab !== 'home') {
+        tg.BackButton.show();
+        const handleBack = () => setActiveTab('home');
+        tg.BackButton.onClick(handleBack);
+        return () => {
+          tg.BackButton.offClick(handleBack);
+          tg.BackButton.hide();
+        };
+      } else {
+        tg.BackButton.hide();
+      }
+    }
+  }, [activeTab]);
+
   // Global States (synchronized to localStorage)
   const [products, setProducts] = useState(() => getInitialState('guli_products', INITIAL_PRODUCTS));
   const [customers, setCustomers] = useState(() => getInitialState('guli_customers', INITIAL_CUSTOMERS));
@@ -237,6 +264,11 @@ export default function App() {
   };
 
   const addNotification = (text) => {
+    // Trigger mobile haptic feedback if running in Telegram WebApp
+    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+      window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+    }
+
     setNotifications(prev => [
       {
         id: Date.now(),
