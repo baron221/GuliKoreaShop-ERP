@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>K-Beauty ERP - Inventory Management</title>
+<!-- Google Fonts: Plus Jakarta Sans & Material Symbols -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed": "#2a1800",
+                    "on-tertiary-container": "#4d3618",
+                    "secondary-container": "#c0ecda",
+                    "surface-container-low": "#eef5f7",
+                    "surface-variant": "#dde4e6",
+                    "tertiary-container": "#c09f78",
+                    "outline-variant": "#dec0ba",
+                    "on-surface": "#161d1f",
+                    "outline": "#8b716d",
+                    "inverse-on-surface": "#ebf2f4",
+                    "surface-tint": "#a53b29",
+                    "inverse-surface": "#2b3234",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed": "#002117",
+                    "on-primary-fixed-variant": "#842415",
+                    "inverse-primary": "#ffb4a6",
+                    "surface": "#f4fafd",
+                    "secondary-fixed-dim": "#a5d0be",
+                    "secondary-fixed": "#c0ecda",
+                    "primary": "#a53b29",
+                    "background": "#f4fafd",
+                    "secondary": "#3e6658",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed-variant": "#264e41",
+                    "surface-bright": "#f4fafd",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed": "#3f0300",
+                    "surface-dim": "#d4dbdd",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-highest": "#dde4e6",
+                    "on-surface-variant": "#57423e",
+                    "error": "#ba1a1a",
+                    "on-background": "#161d1f",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-container": "#ff7e67",
+                    "primary-fixed": "#ffdad4",
+                    "on-primary-container": "#731709",
+                    "surface-container": "#e8eff1",
+                    "tertiary-fixed": "#ffddb7",
+                    "on-error": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "primary-fixed-dim": "#ffb4a6",
+                    "on-secondary-container": "#446c5e",
+                    "on-tertiary-fixed-variant": "#5b4223",
+                    "surface-container-high": "#e2e9ec",
+                    "tertiary": "#745938",
+                    "tertiary-fixed-dim": "#e4c198"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "stack-md": "12px",
+                    "stack-lg": "24px",
+                    "gutter": "16px",
+                    "container-padding": "20px",
+                    "stack-sm": "4px"
+            },
+            "fontFamily": {
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "label-lg": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-lg": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "label-md": ["11px", {"lineHeight": "14px", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["26px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #f4fafd 0%, #e2e9ec 100%);
+            min-height: 100vh;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .inner-glow {
+            box-shadow: inset 2px 2px 8px rgba(255, 255, 255, 0.5);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-white/60 dark:bg-black/40 backdrop-blur-xl border-b border-white/40 dark:border-white/10 shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-primary/20">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPZQg02jeIMHO4xpCT2J1pyMSu6LMt0WX9zwzHGXf5KahwNfz-OOfoY09HRIm_5CUZsVCL09rKpR6A28GF5Co9ZJ-NAnGaKy23Uqk93vutVpj_x0Jq0ky6AB9rKxprbq-7AYdHXiQSc5Ab1MOGBdnZvwuWOOE59skigJx5gUmRqqQHepOPrhIHtiJpyyCgcK4Sdt93INKKYK2agbdlouhc0fgF6qtiGnSWuACZoZm9bA_hQMVVVlbM0PnHJdDIGYQdBJnF_rMrOv0"/>
+</div>
+<h1 class="font-headline-md text-headline-md-mobile font-bold text-primary dark:text-primary-fixed">K-Beauty ERP</h1>
+</div>
+<button class="active:scale-95 transition-transform hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">notifications</span>
+</button>
+</header>
+<main class="pt-20 pb-28 px-container-padding">
+<!-- Dashboard Header / Search -->
+<section class="mb-stack-lg">
+<div class="glass-panel rounded-xl p-base inner-glow flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant ml-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 w-full font-body-md text-on-surface placeholder:text-on-surface-variant/60" placeholder="Search inventory..." type="text"/>
+</div>
+</section>
+<!-- KPI Summary (Contextual) -->
+<section class="grid grid-cols-2 gap-gutter mb-stack-lg">
+<div class="glass-panel rounded-xl p-4 inner-glow">
+<p class="font-label-lg text-label-lg text-on-surface-variant mb-1">TOTAL SKU</p>
+<h2 class="font-headline-lg text-headline-lg-mobile text-primary">1,284</h2>
+</div>
+<div class="glass-panel rounded-xl p-4 inner-glow">
+<p class="font-label-lg text-label-lg text-on-surface-variant mb-1">LOW STOCK</p>
+<h2 class="font-headline-lg text-headline-lg-mobile text-error">12</h2>
+</div>
+</section>
+<!-- Category Filters -->
+<section class="mb-stack-lg overflow-x-auto no-scrollbar flex gap-2">
+<button class="px-4 py-2 rounded-full glass-panel bg-primary text-white font-label-lg border-none">All</button>
+<button class="px-4 py-2 rounded-full glass-panel text-on-surface-variant font-label-lg hover:bg-white/40 transition-colors">Skincare</button>
+<button class="px-4 py-2 rounded-full glass-panel text-on-surface-variant font-label-lg hover:bg-white/40 transition-colors">Makeup</button>
+<button class="px-4 py-2 rounded-full glass-panel text-on-surface-variant font-label-lg hover:bg-white/40 transition-colors">Cleansers</button>
+<button class="px-4 py-2 rounded-full glass-panel text-on-surface-variant font-label-lg hover:bg-white/40 transition-colors">Serums</button>
+</section>
+<!-- Product Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Product Card 1 -->
+<div class="glass-panel rounded-xl overflow-hidden inner-glow group">
+<div class="relative h-48">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A luxurious bottle of hydrating face serum with a frosted glass texture, placed on a reflecting surface with soft, ethereal pastel pink and white lighting. The composition is clean and minimalist, emphasizing the 'Luminous Efficiency' aesthetic with subtle background blurs and high-end cosmetic branding." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoR_qSPQHsgesJN6Slf85LMPt39c4neAgI_UT6Vu4GFLFOkt5uZn9Q6uEDKslpVewB69YNzN-EzXq5ibTIFlJKS4T6UIBi8rMCi3HLA0l5G5aQg-ghR_cvAAILM65FZnhVik2XhUNMCnEUdX2vnTN6cjUcc32NYOuz4Ot8_HxG8YiuX_veXL3jO69DapINXvSglHr5H64J9VI1UiLrOvMrQqlCG7idTaqDNEoj7ifi2wodU_6SRQ7-0-U5yVqT1rIzIVCtG7IZFRY"/>
+<div class="absolute top-3 right-3 px-3 py-1 rounded-full bg-secondary-container/80 backdrop-blur-md text-on-secondary-container font-label-md">
+                        In Stock
+                    </div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Glow Serum</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Skincare • 30ml</p>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary">842</span>
+</div>
+<div class="w-full bg-surface-variant/30 h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 85%;"></div>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="glass-panel rounded-xl overflow-hidden inner-glow group">
+<div class="relative h-48">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A premium sheet mask packaging with minimalist design, featuring soft sage green and cream colors. The lighting is bright and airy, with clear refractive glass-like shadows. The style is modern Korean beauty with emphasis on pure ingredients and sophisticated simplicity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxp9HitaTKq-gHWN-3m0-VfvtwB7sKI_ONLUezmg_wBb1C92cAvW0soD6qZ1aw1YHNk3hBJWdKT5Hwpo7T7COQjPsAFrDUCsvCYNS_GdRMyghHUUgEgvZ4dOH5JjBvDeMPIRDNQjbKLxOrGLUujHrrY8ZSrn9PA7nEMyW8JQgjn-eGAHzM9sWwvmGPZghOn3R608x4ccrnlZYXT6-pO8Ue9K9dLcsOiRPVL1GF9npvSE_4-hhfLrqd8LMz4JsBD_U9iyOtzG5tR_U"/>
+<div class="absolute top-3 right-3 px-3 py-1 rounded-full bg-error-container/80 backdrop-blur-md text-on-error-container font-label-md">
+                        Low Stock
+                    </div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Hydrating Mask</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Skincare • Pack of 5</p>
+</div>
+<span class="font-headline-sm text-headline-sm text-error">42</span>
+</div>
+<div class="w-full bg-surface-variant/30 h-1.5 rounded-full overflow-hidden">
+<div class="bg-error h-full" style="width: 15%;"></div>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="glass-panel rounded-xl overflow-hidden inner-glow group">
+<div class="relative h-48">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A close-up of a premium facial cleanser bottle in a soft-touch matte finish. The product is surrounded by light, translucent water droplets and elegant glass prisms creating soft rainbow refractions. The aesthetic is extremely clean, bright, and professional, characteristic of modern beauty manufacturing." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9O2kX_NyLDACXm8DE34zpgFGxJTtwWgF2tir1IhV_15VALzylvTnm7bq-g_ZJrwy3ko9DhLadQ7BCuy8zU3U9K7ZYNKKtCJXwe_pBe8XPumADow752RjSYQ8VtKJbtdwfGwjFjHpytoZsJXEefGodcwmEfeT8b805FeqHEq4iyfMYIoz9LZbRnP7nO4hn2ihqb1IY-FZ3h3Mn7zpUrdxGd7R7KlxW0f333tbL_7JqZDUKr9Yk1UnCuNotCFH0BcW-9G-CTZblhvU"/>
+<div class="absolute top-3 right-3 px-3 py-1 rounded-full bg-surface-container-highest/80 backdrop-blur-md text-on-surface-variant font-label-md">
+                        Out of Stock
+                    </div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Velvet Cleanser</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Cleansers • 150ml</p>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface-variant">0</span>
+</div>
+<div class="w-full bg-surface-variant/30 h-1.5 rounded-full overflow-hidden">
+<div class="bg-on-surface-variant/20 h-full" style="width: 0%;"></div>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="glass-panel rounded-xl overflow-hidden inner-glow group">
+<div class="relative h-48">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An array of elegant lipstick tubes in soft coral and vibrant rose shades, arranged geometrically on a frosted glass plate. The scene is shot with a shallow depth of field, highlighting the premium metallic textures and translucent cap finishes under soft studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCGEYnPBGfK9z4SJBAGXX-DXl5NvnN2WeW2dlmOO4lj0o3x-NkM3I6rwu81jKIgys_s0AjOu2F_6vmF8dpzzleviRmrx4lE0PPOkHBG1wwHQs3z_wspP5ecS2jMMobAcSej2LZHdCQOG5yL4hbHnKE6hm5wlgaq1G_pgOVFjPePwBKE-e2sQpFDdAWsneCWeClvL43Ji2wAGfXUG-f5VBoBRiQL6ODpyBpeJUNhy-zTs8amwxJrAbphOSBaL9BhH67cclTe47Lqfs"/>
+<div class="absolute top-3 right-3 px-3 py-1 rounded-full bg-secondary-container/80 backdrop-blur-md text-on-secondary-container font-label-md">
+                        In Stock
+                    </div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Glass Lip Tint</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Makeup • Rose Bloom</p>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary">512</span>
+</div>
+<div class="w-full bg-surface-variant/30 h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 60%;"></div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- FAB for adding new product -->
+<button class="fixed bottom-24 right-6 w-14 h-14 rounded-full bg-primary text-white shadow-lg flex items-center justify-center active:scale-90 transition-transform z-40">
+<span class="material-symbols-outlined">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-white/60 dark:bg-black/40 backdrop-blur-xl border-t border-white/40 dark:border-white/10 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant/70 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim font-bold active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant/70 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">insights</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant/70 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">conveyor_belt</span>
+<span class="font-label-md text-label-md">Suppliers</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for filter buttons
+        document.querySelectorAll('button.glass-panel').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if(this.classList.contains('bg-primary')) return;
+                
+                // Reset others
+                document.querySelectorAll('button.glass-panel').forEach(b => {
+                    b.classList.remove('bg-primary', 'text-white');
+                    b.classList.add('text-on-surface-variant');
+                });
+                
+                // Set active
+                this.classList.add('bg-primary', 'text-white');
+                this.classList.remove('text-on-surface-variant');
+            });
+        });
+
+        // Search bar focus effect
+        const searchInput = document.querySelector('input[type="text"]');
+        const searchContainer = searchInput.parentElement;
+        searchInput.addEventListener('focus', () => {
+            searchContainer.style.border = '1px solid #a53b29';
+            searchContainer.style.boxShadow = '0 0 12px rgba(165, 59, 41, 0.2)';
+        });
+        searchInput.addEventListener('blur', () => {
+            searchContainer.style.border = '1px solid rgba(255, 255, 255, 0.4)';
+            searchContainer.style.boxShadow = 'inset 2px 2px 8px rgba(255, 255, 255, 0.5)';
+        });
+    </script>
+</body></html>

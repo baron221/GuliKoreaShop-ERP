@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at top left, #ffdad4 0%, #f4fafd 40%, #eef5f7 100%);
+      min-height: 100vh;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.05);
+    }
+    .glass-input {
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    .glass-input:focus {
+      border-color: #a53b29;
+      box-shadow: 0 0 0 2px rgba(165, 59, 41, 0.1);
+      outline: none;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .fill-icon {
+      font-variation-settings: 'FILL' 1;
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "on-tertiary-fixed": "#2a1800",
+                  "on-tertiary-container": "#4d3618",
+                  "secondary-container": "#c0ecda",
+                  "surface-container-low": "#eef5f7",
+                  "surface-variant": "#dde4e6",
+                  "tertiary-container": "#c09f78",
+                  "outline-variant": "#dec0ba",
+                  "on-surface": "#161d1f",
+                  "outline": "#8b716d",
+                  "inverse-on-surface": "#ebf2f4",
+                  "surface-tint": "#a53b29",
+                  "inverse-surface": "#2b3234",
+                  "on-secondary": "#ffffff",
+                  "on-secondary-fixed": "#002117",
+                  "on-primary-fixed-variant": "#842415",
+                  "inverse-primary": "#ffb4a6",
+                  "surface": "#f4fafd",
+                  "secondary-fixed-dim": "#a5d0be",
+                  "secondary-fixed": "#c0ecda",
+                  "primary": "#a53b29",
+                  "background": "#f4fafd",
+                  "secondary": "#3e6658",
+                  "on-error-container": "#93000a",
+                  "on-secondary-fixed-variant": "#264e41",
+                  "surface-bright": "#f4fafd",
+                  "error-container": "#ffdad6",
+                  "on-primary-fixed": "#3f0300",
+                  "surface-dim": "#d4dbdd",
+                  "on-tertiary": "#ffffff",
+                  "surface-container-highest": "#dde4e6",
+                  "on-surface-variant": "#57423e",
+                  "error": "#ba1a1a",
+                  "on-background": "#161d1f",
+                  "surface-container-lowest": "#ffffff",
+                  "primary-container": "#ff7e67",
+                  "primary-fixed": "#ffdad4",
+                  "on-primary-container": "#731709",
+                  "surface-container": "#e8eff1",
+                  "tertiary-fixed": "#ffddb7",
+                  "on-error": "#ffffff",
+                  "on-primary": "#ffffff",
+                  "primary-fixed-dim": "#ffb4a6",
+                  "on-secondary-container": "#446c5e",
+                  "on-tertiary-fixed-variant": "#5b4223",
+                  "surface-container-high": "#e2e9ec",
+                  "tertiary": "#745938",
+                  "tertiary-fixed-dim": "#e4c198"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "base": "8px",
+                  "stack-md": "12px",
+                  "stack-lg": "24px",
+                  "gutter": "16px",
+                  "container-padding": "20px",
+                  "stack-sm": "4px"
+          },
+          "fontFamily": {
+                  "headline-sm": ["Plus Jakarta Sans"],
+                  "headline-md": ["Plus Jakarta Sans"],
+                  "body-md": ["Plus Jakarta Sans"],
+                  "headline-lg": ["Plus Jakarta Sans"],
+                  "label-lg": ["Plus Jakarta Sans"],
+                  "label-md": ["Plus Jakarta Sans"],
+                  "headline-lg-mobile": ["Plus Jakarta Sans"],
+                  "body-lg": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+                  "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                  "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                  "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                  "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                  "label-lg": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                  "label-md": ["11px", {"lineHeight": "14px", "fontWeight": "500"}],
+                  "headline-lg-mobile": ["26px", {"lineHeight": "32px", "fontWeight": "700"}],
+                  "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-white/60 dark:bg-black/40 backdrop-blur-xl border-b border-white/40 dark:border-white/10 shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed overflow-hidden flex items-center justify-center">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a Korean cosmetics supply chain manager, styled in a minimalist and clean aesthetic. The person has a friendly expression and is set against a soft, luminous background with coral and white tones. The overall lighting is bright and ethereal, consistent with a high-end K-beauty brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBR8ZRVjBOw4SpehGN7tvi0ep3QRbo5g6guOzOhehJOs7zeSIFgIBctHqX5LbkZnnDwNgqOHxKyWwCZMkLDZy7TWS_j7AzKJ1IOa0oMBW15iQ_gC7LyMEguD0rdftTincAih29zaQArRmoT54nUG6ihIi8Vm0DtuklOOfotSOrPJfuBe8tJmcGCVcAFY6VGw4YHqIuv5iy1SmccrdLCUfSToxdQVlOKpvvsAwEe4CAhRRjmcGcOlsE-DWm68-Qm0bywBEAY2LCqkk8"/>
+</div>
+<h1 class="font-headline-md text-headline-md-mobile font-bold text-primary dark:text-primary-fixed">K-Beauty ERP</h1>
+</div>
+<button class="material-symbols-outlined text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 transition-transform" data-icon="notifications">notifications</button>
+</header>
+<main class="pt-24 pb-32 px-container-padding max-w-5xl mx-auto">
+<!-- Screen Header -->
+<div class="flex flex-col gap-2 mb-stack-lg">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Supplier Management</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Global sourcing and performance tracking.</p>
+</div>
+<!-- Search & Filter -->
+<div class="glass-card rounded-xl p-4 mb-stack-lg flex gap-3 items-center">
+<div class="flex-1 relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="glass-input w-full pl-10 pr-4 py-2 rounded-lg font-body-md text-body-md" placeholder="Search suppliers..." type="text"/>
+</div>
+<button class="glass-input p-2 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+</button>
+</div>
+<!-- Stats Row (KPIs) -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter mb-stack-lg">
+<div class="glass-card p-4 rounded-xl">
+<p class="font-label-lg text-label-lg text-on-surface-variant uppercase">Active</p>
+<h3 class="font-headline-lg text-headline-lg text-primary">24</h3>
+</div>
+<div class="glass-card p-4 rounded-xl">
+<p class="font-label-lg text-label-lg text-on-surface-variant uppercase">Shipments</p>
+<h3 class="font-headline-lg text-headline-lg text-secondary">142</h3>
+</div>
+<div class="glass-card p-4 rounded-xl">
+<p class="font-label-lg text-label-lg text-on-surface-variant uppercase">Avg Lead</p>
+<h3 class="font-headline-lg text-headline-lg text-tertiary">12d</h3>
+</div>
+<div class="glass-card p-4 rounded-xl">
+<p class="font-label-lg text-label-lg text-on-surface-variant uppercase">Risk</p>
+<h3 class="font-headline-lg text-headline-lg text-error">Low</h3>
+</div>
+</div>
+<!-- Supplier List -->
+<div class="flex flex-col gap-gutter">
+<!-- Card 1 -->
+<div class="glass-card p-5 rounded-xl transition-transform hover:scale-[1.01] duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-white/40">
+<img alt="Seoul Glass" data-alt="A minimalist logo for a high-end glass manufacturing company, displayed in a clean, professional glassmorphic setting. The background is a soft blend of pastel corals and whites with a deep bokeh effect. The lighting is soft and airy, emphasizing a premium and modern manufacturing aesthetic suitable for K-beauty packaging." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgZYEha_sAYmv_MznSA0D3KNAD7PpufacxHKaLxrqauAy0nnpB8p3ABKT4FbgFpNchLs46Ib3qXLr51w5oJzj4a5loiJKngOtmSlHF0xsr55aXdtoevdzTLKQqws6AMae_spT8MQeVY3KTG7cz9ZDNjQJHXRDXHaw4adHQ0nMWLScTg3XRaE4s6mTlf4igiHIiujj9T7NU5bUwarBiX8rUNBPvNALlu5dxH0mE3mMjz5oU3sVb2ItPZ4XNG7wIJ9QRL19LbKeJEW0"/>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm">Seoul Glass Co.</h4>
+<div class="flex gap-2 mt-1">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-md text-label-md">Verified</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-md text-label-md">Tier 1</span>
+</div>
+</div>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-white/20 pt-4">
+<div>
+<p class="font-label-lg text-label-lg text-on-surface-variant mb-1">Contact Person</p>
+<p class="font-body-md text-body-md">Ji-woo Park</p>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface-variant mb-1">Last Shipment</p>
+<p class="font-body-md text-body-md">Oct 24, 2023</p>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface-variant mb-1">Performance Rating</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-sm fill-icon" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-body-md text-body-md font-bold">4.9</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-card p-5 rounded-xl transition-transform hover:scale-[1.01] duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-white/40">
+<img alt="Jeju Botanicals" data-alt="A sophisticated brand mark representing organic botanical ingredients, presented in a soft-focus laboratory setting. The atmosphere is clean and serene, with a color palette of sage greens, whites, and luminous coral. The overall look is professional, high-end, and modern, reflecting organic K-beauty standards." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMmh59zsvUB4l6klP_9zSU5wQfgUOsfy31tLW5qs9kcM6S8m0m-PAhD4Yz9X362dxauiIdW-0k4ZEvkXe3WxYc8yyZn4mkyS-nfV0ka8iTuPk-V0xr25oRX4az5-IkHNlvwdKpwMYuFEghPTiqZat2iuC-N7ftJDa7TVlFianpYMS3aK_vNfjfEL6nWgOnG4uJew59YiWeZ1JcA5l6zQhqrCan_uOysl4zAy5M-nL351-muGHzsWJCx4_nKXrfwjVNEevl2vBHxws"/>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm">Jeju Botanicals</h4>
+<div class="flex gap-2 mt-1">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-md text-label-md">Organic</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-md text-label-md">Bulk</span>
+</div>
+</div>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-white/20 pt-4">
+<div>
+<p class="font-label-lg text-label-lg text-on-surface-variant mb-1">Contact Person</p>
+<p class="font-body-md text-body-md">Min-ho Lee</p>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface-variant mb-1">Last Shipment</p>
+<p class="font-body-md text-body-md">Nov 02, 2023</p>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface-variant mb-1">Performance Rating</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-sm fill-icon" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-body-md text-body-md font-bold">4.7</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="glass-card p-5 rounded-xl transition-transform hover:scale-[1.01] duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-white/40">
+<img alt="Daejeon Logistics" data-alt="A modern logistics company icon showcasing speed and efficiency, set in a bright, futuristic industrial space. The environment uses soft white gradients and translucent materials. The color scheme focuses on coral and steel-grey with high-key lighting, maintaining the luminous efficiency aesthetic of a professional K-beauty ERP." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD197977f4gIQLr_GbA6egMHz-iXPz8rmGTxSx4FdgMkncP6LrkFn75Q4SJ4HMzTZux-wuQSxP3RMaGm82nfguIqNud4j3h4cuLr0Qk-ukh5ytZakmSTVCLA4nC-8H2TSS894eeA9w_Y7zjsvQWwAfbOjlxszM2l-fcqaKeBiepcNas4CMZRdyl13TAQyPUMHzmp_yRDNG2b38e5p_YGFWG2H87IG7aAVjkcaQtHALxIuGU6_2JqOVDMudfo4LP_q-wRG2Q2M92Wcg"/>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm">Daejeon Packaging</h4>
+<div class="flex gap-2 mt-1">
+<span class="px-2 py-0.5 rounded-full bg-outline-variant text-on-surface-variant font-label-md text-label-md">In Review</span>
+</div>
+</div>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-white/20 pt-4">
+<div>
+<p class="font-label-lg text-label-lg text-on-surface-variant mb-1">Contact Person</p>
+<p class="font-body-md text-body-md">Hana Kim</p>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface-variant mb-1">Last Shipment</p>
+<p class="font-body-md text-body-md">Oct 15, 2023</p>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface-variant mb-1">Performance Rating</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-sm fill-icon" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-body-md text-body-md font-bold">4.2</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center hover:opacity-90 active:scale-95 transition-all z-40">
+<span class="material-symbols-outlined text-2xl" data-icon="add">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-white/60 dark:bg-black/40 backdrop-blur-xl border-t border-white/40 dark:border-white/10 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant/70 hover:bg-white/20 dark:hover:bg-white/5 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant/70 hover:bg-white/20 dark:hover:bg-white/5 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant/70 hover:bg-white/20 dark:hover:bg-white/5 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim font-bold hover:bg-white/20 dark:hover:bg-white/5 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined fill-icon" data-icon="conveyor_belt" style="font-variation-settings: 'FILL' 1;">conveyor_belt</span>
+<span class="font-label-md text-label-md">Suppliers</span>
+</a>
+</nav>
+<script>
+    // Add subtle hover parallax to glass cards
+    document.querySelectorAll('.glass-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+  </script>
+</body></html>

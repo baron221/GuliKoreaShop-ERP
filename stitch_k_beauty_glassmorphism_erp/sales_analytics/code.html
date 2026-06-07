@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>K-Beauty ERP - Sales Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.03);
+    }
+    .glass-panel-heavy {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .chart-gradient {
+      background: linear-gradient(180deg, rgba(165, 59, 41, 0.15) 0%, rgba(165, 59, 41, 0) 100%);
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "on-tertiary-fixed": "#2a1800",
+                  "on-tertiary-container": "#4d3618",
+                  "secondary-container": "#c0ecda",
+                  "surface-container-low": "#eef5f7",
+                  "surface-variant": "#dde4e6",
+                  "tertiary-container": "#c09f78",
+                  "outline-variant": "#dec0ba",
+                  "on-surface": "#161d1f",
+                  "outline": "#8b716d",
+                  "inverse-on-surface": "#ebf2f4",
+                  "surface-tint": "#a53b29",
+                  "inverse-surface": "#2b3234",
+                  "on-secondary": "#ffffff",
+                  "on-secondary-fixed": "#002117",
+                  "on-primary-fixed-variant": "#842415",
+                  "inverse-primary": "#ffb4a6",
+                  "surface": "#f4fafd",
+                  "secondary-fixed-dim": "#a5d0be",
+                  "secondary-fixed": "#c0ecda",
+                  "primary": "#a53b29",
+                  "background": "#f4fafd",
+                  "secondary": "#3e6658",
+                  "on-error-container": "#93000a",
+                  "on-secondary-fixed-variant": "#264e41",
+                  "surface-bright": "#f4fafd",
+                  "error-container": "#ffdad6",
+                  "on-primary-fixed": "#3f0300",
+                  "surface-dim": "#d4dbdd",
+                  "on-tertiary": "#ffffff",
+                  "surface-container-highest": "#dde4e6",
+                  "on-surface-variant": "#57423e",
+                  "error": "#ba1a1a",
+                  "on-background": "#161d1f",
+                  "surface-container-lowest": "#ffffff",
+                  "primary-container": "#ff7e67",
+                  "primary-fixed": "#ffdad4",
+                  "on-primary-container": "#731709",
+                  "surface-container": "#e8eff1",
+                  "tertiary-fixed": "#ffddb7",
+                  "on-error": "#ffffff",
+                  "on-primary": "#ffffff",
+                  "primary-fixed-dim": "#ffb4a6",
+                  "on-secondary-container": "#446c5e",
+                  "on-tertiary-fixed-variant": "#5b4223",
+                  "surface-container-high": "#e2e9ec",
+                  "tertiary": "#745938",
+                  "tertiary-fixed-dim": "#e4c198"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "base": "8px",
+                  "stack-md": "12px",
+                  "stack-lg": "24px",
+                  "gutter": "16px",
+                  "container-padding": "20px",
+                  "stack-sm": "4px"
+          },
+          "fontFamily": {
+                  "headline-sm": ["Plus Jakarta Sans"],
+                  "headline-md": ["Plus Jakarta Sans"],
+                  "body-md": ["Plus Jakarta Sans"],
+                  "headline-lg": ["Plus Jakarta Sans"],
+                  "label-lg": ["Plus Jakarta Sans"],
+                  "label-md": ["Plus Jakarta Sans"],
+                  "headline-lg-mobile": ["Plus Jakarta Sans"],
+                  "body-lg": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+                  "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                  "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                  "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                  "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                  "label-lg": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                  "label-md": ["11px", {"lineHeight": "14px", "fontWeight": "500"}],
+                  "headline-lg-mobile": ["26px", {"lineHeight": "32px", "fontWeight": "700"}],
+                  "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background min-h-screen text-on-surface">
+<!-- Background Gradients -->
+<div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+<div class="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] bg-primary/10 blur-[120px] rounded-full"></div>
+<div class="absolute top-[40%] -right-[5%] w-[40%] h-[40%] bg-secondary/10 blur-[100px] rounded-full"></div>
+<div class="absolute bottom-[10%] left-[20%] w-[30%] h-[30%] bg-tertiary/10 blur-[80px] rounded-full"></div>
+</div>
+<!-- Top Navigation Shell -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-white/60 dark:bg-black/40 backdrop-blur-xl border-b border-white/40 dark:border-white/10 shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white overflow-hidden shadow-lg border border-white/20">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a Korean man wearing a clean, modern white suit in a brightly lit studio. The aesthetic is ultra-clean and high-end, representing a K-beauty corporate executive. The lighting is soft and diffused, highlighting clear skin textures against a minimalist pastel backdrop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVJsG7Gyno-9nKnYVr4ptWNQC-ogfdMbg4UjHScXmppwIpE2EXyXYA_wg00Wei1N79sPX9mmsDhg13HWgWTnycUtqqXe9ppRpZI9gw-cPfDY30cd30r7B8iXt2CX1p0lYy2W3O41BqQGpmIfqXV7LFnHJTZNgdQGtGERoZtzxjoDiUTWM7MvXb3azsuZrqdGGdL92BCA02loVr31W_oqcxl41c-5vakvPgWuCCZVXB4-ISltrboZXSZuomaK85F8T6LR0EeAxUOfs"/>
+</div>
+<span class="font-headline-md text-headline-md-mobile font-bold text-primary dark:text-primary-fixed">K-Beauty ERP</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 transition-transform" data-icon="notifications">notifications</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-32 px-container-padding max-w-screen-xl mx-auto space-y-stack-lg">
+<!-- Page Header & Toggle -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<span class="font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider">Dashboard</span>
+<h1 class="font-headline-lg text-headline-lg-mobile text-primary">Sales Analytics</h1>
+</div>
+<div class="flex p-1 glass-panel rounded-full self-start md:self-auto">
+<button class="px-6 py-2 rounded-full font-label-lg text-label-lg transition-all duration-300 bg-primary text-on-primary shadow-sm" id="toggle-weekly" onclick="setActiveToggle('weekly')">Weekly</button>
+<button class="px-6 py-2 rounded-full font-label-lg text-label-lg transition-all duration-300 text-on-surface-variant" id="toggle-monthly" onclick="setActiveToggle('monthly')">Monthly</button>
+</div>
+</section>
+<!-- KPI Top Row -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Total Revenue -->
+<div class="glass-panel p-stack-lg rounded-xl flex flex-col justify-between h-32 relative overflow-hidden group">
+<div class="relative z-10">
+<p class="font-label-lg text-label-lg text-on-surface-variant">Total Revenue</p>
+<p class="font-headline-lg text-headline-lg-mobile text-on-surface">$124,590.00</p>
+</div>
+<div class="flex items-center text-secondary font-label-lg text-label-lg gap-1 relative z-10">
+<span class="material-symbols-outlined text-[16px]" data-icon="trending_up">trending_up</span>
+<span>+12.4% vs last period</span>
+</div>
+<div class="absolute -right-2 -bottom-2 opacity-5 group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-[120px]" data-icon="payments">payments</span>
+</div>
+</div>
+<!-- Conversion Rate -->
+<div class="glass-panel p-stack-lg rounded-xl flex flex-col justify-between h-32 relative overflow-hidden group">
+<div class="relative z-10">
+<p class="font-label-lg text-label-lg text-on-surface-variant">Conversion Rate</p>
+<p class="font-headline-lg text-headline-lg-mobile text-on-surface">4.82%</p>
+</div>
+<div class="flex items-center text-primary font-label-lg text-label-lg gap-1 relative z-10">
+<span class="material-symbols-outlined text-[16px]" data-icon="trending_down">trending_down</span>
+<span>-0.5% vs last period</span>
+</div>
+<div class="absolute -right-2 -bottom-2 opacity-5 group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-[120px]" data-icon="shopping_cart_checkout">shopping_cart_checkout</span>
+</div>
+</div>
+<!-- Active Customers -->
+<div class="glass-panel p-stack-lg rounded-xl flex flex-col justify-between h-32 relative overflow-hidden group">
+<div class="relative z-10">
+<p class="font-label-lg text-label-lg text-on-surface-variant">Active Customers</p>
+<p class="font-headline-lg text-headline-lg-mobile text-on-surface">12,840</p>
+</div>
+<div class="flex items-center text-secondary font-label-lg text-label-lg gap-1 relative z-10">
+<span class="material-symbols-outlined text-[16px]" data-icon="trending_up">trending_up</span>
+<span>+8.2% vs last period</span>
+</div>
+<div class="absolute -right-2 -bottom-2 opacity-5 group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-[120px]" data-icon="group">group</span>
+</div>
+</div>
+</section>
+<!-- Main Chart Section: Bento Grid -->
+<section class="grid grid-cols-1 lg:grid-cols-4 gap-gutter lg:grid-rows-2">
+<!-- Sales Trends Large Card -->
+<div class="lg:col-span-3 lg:row-span-2 glass-panel-heavy p-stack-lg rounded-xl flex flex-col gap-6 min-h-[400px]">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="show_chart">show_chart</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Sales Trends</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Real-time revenue performance</p>
+</div>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-variant p-2 rounded-full transition-colors" data-icon="more_vert">more_vert</button>
+</div>
+<!-- Mock Line Chart -->
+<div class="flex-grow relative mt-4">
+<svg class="w-full h-full min-h-[250px]" preserveaspectratio="none" viewbox="0 0 800 250">
+<!-- Grid Lines -->
+<line stroke="rgba(0,0,0,0.05)" stroke-width="1" x1="0" x2="800" y1="50" y2="50"></line>
+<line stroke="rgba(0,0,0,0.05)" stroke-width="1" x1="0" x2="800" y1="100" y2="100"></line>
+<line stroke="rgba(0,0,0,0.05)" stroke-width="1" x1="0" x2="800" y1="150" y2="150"></line>
+<line stroke="rgba(0,0,0,0.05)" stroke-width="1" x1="0" x2="800" y1="200" y2="200"></line>
+<!-- Area Gradient -->
+<defs>
+<lineargradient id="areaGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#a53b29" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#a53b29" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0,200 L50,180 L100,190 L150,140 L200,160 L250,110 L300,130 L350,90 L400,105 L450,60 L500,80 L550,50 L600,70 L650,40 L700,55 L750,20 L800,30 V250 H0 Z" fill="url(#areaGrad)"></path>
+<!-- Trend Line -->
+<path d="M0,200 L50,180 L100,190 L150,140 L200,160 L250,110 L300,130 L350,90 L400,105 L450,60 L500,80 L550,50 L600,70 L650,40 L700,55 L750,20 L800,30" fill="none" stroke="#a53b29" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+<!-- Points -->
+<circle cx="250" cy="110" fill="#ffffff" r="4" stroke="#a53b29" stroke-width="2"></circle>
+<circle cx="550" cy="50" fill="#ffffff" r="4" stroke="#a53b29" stroke-width="2"></circle>
+<circle cx="750" cy="20" fill="#a53b29" r="5"></circle>
+</svg>
+<!-- Tooltip Mockup -->
+<div class="absolute top-[10%] right-[10%] glass-panel-heavy p-2 rounded-lg border border-primary/20 shadow-xl pointer-events-none">
+<p class="font-label-md text-label-md text-primary font-bold">Peak Sales</p>
+<p class="font-body-md text-body-md text-on-surface">$14,203.40</p>
+</div>
+<!-- X-Axis Labels -->
+<div class="flex justify-between mt-4 text-on-surface-variant font-label-md text-label-md">
+<span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+</div>
+</div>
+</div>
+<!-- Best Selling Category Widget -->
+<div class="glass-panel p-stack-lg rounded-xl flex flex-col gap-4">
+<h3 class="font-label-lg text-label-lg text-on-surface-variant uppercase tracking-widest">Best Category</h3>
+<div class="flex-grow flex flex-col justify-center gap-4">
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md">Glass Skin Serum</span>
+<span class="font-label-lg text-label-lg text-primary">42%</span>
+</div>
+<div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 42%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md">Snail Mucin Mask</span>
+<span class="font-label-lg text-label-lg text-on-surface-variant">28%</span>
+</div>
+<div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-container rounded-full" style="width: 28%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md">CICA Toner</span>
+<span class="font-label-lg text-label-lg text-on-surface-variant">15%</span>
+</div>
+<div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary-fixed-dim rounded-full" style="width: 15%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Customer Retention Widget -->
+<div class="glass-panel p-stack-lg rounded-xl flex flex-col gap-4">
+<h3 class="font-label-lg text-label-lg text-on-surface-variant uppercase tracking-widest">Retention Rate</h3>
+<div class="flex flex-col items-center justify-center flex-grow py-4">
+<div class="relative w-24 h-24 flex items-center justify-center">
+<svg class="absolute inset-0 w-full h-full -rotate-90" viewbox="0 0 36 36">
+<path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="rgba(0,0,0,0.05)" stroke-dasharray="100, 100" stroke-width="3"></path>
+<path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#3e6658" stroke-dasharray="74, 100" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<span class="font-headline-md text-headline-md text-secondary">74%</span>
+</div>
+<div class="mt-4 text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">Loyal Customer Growth</p>
+<p class="font-label-md text-label-md text-secondary">+5.2% this month</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Transactions List / Optional -->
+<section class="glass-panel rounded-xl overflow-hidden">
+<div class="px-gutter py-4 border-b border-white/20 flex justify-between items-center">
+<h3 class="font-headline-sm text-headline-sm">Regional Performance</h3>
+<button class="text-primary font-label-lg text-label-lg hover:underline transition-all">View All Regions</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low">
+<tr class="text-on-surface-variant font-label-lg text-label-lg border-b border-white/10">
+<th class="px-gutter py-3 font-semibold">Region</th>
+<th class="px-gutter py-3 font-semibold">Sales Volume</th>
+<th class="px-gutter py-3 font-semibold">Growth</th>
+<th class="px-gutter py-3 font-semibold">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/10">
+<tr class="hover:bg-white/10 transition-colors">
+<td class="px-gutter py-4 font-body-md text-body-md">Seoul Central</td>
+<td class="px-gutter py-4 font-body-md text-body-md">$45,200</td>
+<td class="px-gutter py-4 font-body-md text-body-md text-secondary">+15%</td>
+<td class="px-gutter py-4">
+<span class="px-2 py-1 bg-secondary-container text-on-secondary-container rounded-full text-label-md font-label-md">High Demand</span>
+</td>
+</tr>
+<tr class="hover:bg-white/10 transition-colors">
+<td class="px-gutter py-4 font-body-md text-body-md">Busan Metropolitan</td>
+<td class="px-gutter py-4 font-body-md text-body-md">$28,150</td>
+<td class="px-gutter py-4 font-body-md text-body-md text-secondary">+8.4%</td>
+<td class="px-gutter py-4">
+<span class="px-2 py-1 bg-surface-container-highest text-on-surface-variant rounded-full text-label-md font-label-md">Stable</span>
+</td>
+</tr>
+<tr class="hover:bg-white/10 transition-colors">
+<td class="px-gutter py-4 font-body-md text-body-md">Incheon International</td>
+<td class="px-gutter py-4 font-body-md text-body-md">$19,400</td>
+<td class="px-gutter py-4 font-body-md text-body-md text-primary">-2.1%</td>
+<td class="px-gutter py-4">
+<span class="px-2 py-1 bg-error-container text-on-error-container rounded-full text-label-md font-label-md">Warning</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-white/60 dark:bg-black/40 backdrop-blur-xl border-t border-white/40 dark:border-white/10 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant/70 hover:bg-white/20 dark:hover:bg-white/5 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant/70 hover:bg-white/20 dark:hover:bg-white/5 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim font-bold active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="insights" style="font-variation-settings: 'FILL' 1;">insights</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant/70 hover:bg-white/20 dark:hover:bg-white/5 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="conveyor_belt">conveyor_belt</span>
+<span class="font-label-md text-label-md">Suppliers</span>
+</a>
+</nav>
+<script>
+    function setActiveToggle(mode) {
+      const weeklyBtn = document.getElementById('toggle-weekly');
+      const monthlyBtn = document.getElementById('toggle-monthly');
+      
+      if (mode === 'weekly') {
+        weeklyBtn.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+        weeklyBtn.classList.remove('text-on-surface-variant');
+        monthlyBtn.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+        monthlyBtn.classList.add('text-on-surface-variant');
+      } else {
+        monthlyBtn.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+        monthlyBtn.classList.remove('text-on-surface-variant');
+        weeklyBtn.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+        weeklyBtn.classList.add('text-on-surface-variant');
+      }
+    }
+
+    // Small interaction for card hovering
+    document.querySelectorAll('.glass-panel').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-2px)';
+        card.style.transition = 'all 0.3s ease';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0)';
+      });
+    });
+  </script>
+</body></html>
