@@ -165,7 +165,7 @@ export default function Dashboard({
       
       {/* Dashboard Header */}
       <section className="mb-6">
-        <h2 className="text-2xl font-extrabold text-on-surface mb-1">Xayrli tong, Hyo-Jin</h2>
+        <h2 className="text-2xl font-extrabold text-on-surface mb-1">Xayrli tong, Gulnoza</h2>
         <p className="text-xs text-on-surface-variant font-semibold">Tizim holati ideal. Bugungi ko'rsatkichlar va hisobotlar bilan tanishing.</p>
       </section>
 
