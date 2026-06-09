@@ -29,7 +29,7 @@ export default function Customers({
   // Temporary inputs to add an item to the mini-cart
   const [addCartProductId, setAddCartProductId] = useState(products[0]?.id || '');
   const [addCartQty, setAddCartQty] = useState(1);
-  const [addCartPriceKRW, setAddCartPriceKRW] = useState(products[0]?.priceInKRW.toString() || '');
+  const [addCartPriceKRW, setAddCartPriceKRW] = useState(products[0] ? products[0].priceInKRW.toString() : '');
   const [addCartPriceUZS, setAddCartPriceUZS] = useState(
     products[0] ? Math.round(products[0].priceInKRW * currencyRate).toString() : ''
   );
