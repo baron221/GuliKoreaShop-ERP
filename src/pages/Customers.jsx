@@ -15,6 +15,7 @@ export default function Customers({
   const [editingClient, setEditingClient] = useState(null); // Client being edited
   const [purchasingClient, setPurchasingClient] = useState(null); // Client making new purchase
   const [expandedHistoryId, setExpandedHistoryId] = useState(null); // ID of client with expanded history
+  const [customerSubTab, setCustomerSubTab] = useState('all'); // 'all' or 'debts'
 
   // Add Client Form states
   const [newClientName, setNewClientName] = useState('');
@@ -36,10 +37,58 @@ export default function Customers({
   // Edit Client Form states
   const [editName, setEditName] = useState('');
   const [editPhone, setEditPhone] = useState('');
+  const [editDeadline, setEditDeadline] = useState('');
 
   // Payment Form states
   const [payAmountKRW, setPayAmountKRW] = useState('');
   const [payAmountUZS, setPayAmountUZS] = useState('');
+  const [payMethod, setPayMethod] = useState('Naqd');
+  const [payNote, setPayNote] = useState('');
+
+  // Helper to format date in Uzbek layout
+  const getFormattedDate = () => {
+    const months = [
+      'Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun',
+      'Iyul', 'Avgust', 'Sentyabr', 'Oktyabr', 'Noyabr', 'Dekabr'
+    ];
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = months[now.getMonth()];
+    const year = now.getFullYear();
+    return `${day}-${month}, ${year}`;
+  };
+
+  // Helper to render deadline warning badges
+  const renderDeadlineBadge = (deadline) => {
+    if (!deadline) return null;
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const deadlineDate = new Date(deadline);
+    deadlineDate.setHours(0,0,0,0);
+
+    const isOverdue = deadlineDate < today;
+    const isToday = deadlineDate.getTime() === today.getTime();
+
+    if (isOverdue) {
+      return (
+        <span className="px-2 py-0.5 bg-red-500/15 border border-red-500/30 text-red-400 rounded text-[9px] font-extrabold animate-pulse">
+          Muddati o'tgan: {deadline}
+        </span>
+      );
+    } else if (isToday) {
+      return (
+        <span className="px-2 py-0.5 bg-amber-500/15 border border-amber-500/30 text-amber-400 rounded text-[9px] font-extrabold">
+          Bugun to'lash kerak: {deadline}
+        </span>
+      );
+    } else {
+      return (
+        <span className="px-2 py-0.5 bg-secondary/15 border border-secondary/30 text-secondary rounded text-[9px] font-extrabold">
+          To'lov muddati: {deadline}
+        </span>
+      );
+    }
+  };
 
   // New Purchase Form states (for existing client)
   const [selectedProductId, setSelectedProductId] = useState(products[0]?.id || '');
@@ -216,7 +265,7 @@ export default function Customers({
         productName: item.productName,
         quantity: item.quantity,
         priceInKRW: item.priceInKRW,
-        date: 'Bugun'
+        date: getFormattedDate()
       }))
     };
 
@@ -240,7 +289,8 @@ export default function Customers({
     setCustomers(prev => prev.map(c => c.id === editingClient.id ? {
       ...c,
       name: editName,
-      phone: editPhone
+      phone: editPhone,
+      paymentDeadline: editDeadline || null
     } : c));
 
     addNotification(`Mijoz ma'lumotlari tahrirlandi: ${editName}.`);
@@ -251,6 +301,7 @@ export default function Customers({
     setEditingClient(client);
     setEditName(client.name);
     setEditPhone(client.phone);
+    setEditDeadline(client.paymentDeadline || '');
   };
 
   const handleDeleteClient = (id, name) => {
@@ -261,6 +312,19 @@ export default function Customers({
     }
   };
 
+  const handleSendReminder = (client, debtAmountKRW) => {
+    const debtUZS = Math.round(debtAmountKRW * currencyRate);
+    const formattedDebt = `${debtUZS.toLocaleString()} so'm (₩${debtAmountKRW.toLocaleString()})`;
+    const deadlineText = client.paymentDeadline ? `\n📅 To'lov muddati: ${client.paymentDeadline}` : '';
+    
+    const message = `Assalomu alaykum, hurmatli ${client.name}!\n` +
+      `GuliKoreaShop do'konidan olingan tovarlar uchun ${formattedDebt} miqdoridagi qarzdorlikni to'lash yodingizdan chiqmadimi?${deadlineText}\n\n` +
+      `To'lovni amalga oshirishingizni so'raymiz. Hamkorligingiz uchun rahmat! 🌸`;
+
+    const telegramUrl = `https://t.me/share/url?url=&text=${encodeURIComponent(message)}`;
+    window.open(telegramUrl, '_blank');
+  };
+
   // Handle Payment Submission
   const handleReceivePayment = (e) => {
     e.preventDefault();
@@ -269,9 +333,18 @@ export default function Customers({
 
     setCustomers(prev => prev.map(c => {
       if (c.id === payingClient.id) {
+        const history = c.payments || [];
+        const newPayment = {
+          id: Date.now(),
+          amountKRW: payAmtKRW,
+          date: getFormattedDate(),
+          method: payMethod,
+          note: payNote.trim()
+        };
         return {
           ...c,
-          totalPaidKRW: c.totalPaidKRW + payAmtKRW
+          totalPaidKRW: c.totalPaidKRW + payAmtKRW,
+          payments: [newPayment, ...history]
         };
       }
       return c;
@@ -281,12 +354,16 @@ export default function Customers({
     setPayingClient(null);
     setPayAmountKRW('');
     setPayAmountUZS('');
+    setPayMethod('Naqd');
+    setPayNote('');
   };
 
   const handleOpenPayment = (client) => {
     setPayingClient(client);
     setPayAmountKRW('');
     setPayAmountUZS('');
+    setPayMethod('Naqd');
+    setPayNote('');
   };
 
   // Open New Purchase modal for existing client
@@ -337,7 +414,7 @@ export default function Customers({
           productName: prod.name,
           quantity: purchaseQty,
           priceInKRW: priceKRW,
-          date: 'Bugun'
+          date: getFormattedDate()
         };
         return {
           ...c,
@@ -361,7 +438,10 @@ export default function Customers({
     }
   };
 
-  const filteredCustomers = customers.filter(c => 
+  const debtors = customers.filter(c => (c.totalPurchasedKRW - c.totalPaidKRW) > 0);
+  const activeCustomerList = customerSubTab === 'all' ? customers : debtors;
+
+  const filteredCustomers = activeCustomerList.filter(c => 
     c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     c.phone.includes(searchQuery)
   );
@@ -405,6 +485,32 @@ export default function Customers({
         </div>
       </div>
 
+      {/* Sub Tabs Toggle */}
+      <div className="flex gap-2 mb-6">
+        <button
+          onClick={() => setCustomerSubTab('all')}
+          className={`flex-1 py-2.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer flex items-center justify-center gap-1.5 border ${
+            customerSubTab === 'all' 
+              ? 'bg-primary text-white border-primary shadow-md' 
+              : 'glass-card border-white/20 text-on-surface hover:bg-white/10'
+          }`}
+        >
+          <span className="material-symbols-outlined text-sm">groups</span>
+          Barcha Mijozlar ({customers.length})
+        </button>
+        <button
+          onClick={() => setCustomerSubTab('debts')}
+          className={`flex-1 py-2.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer flex items-center justify-center gap-1.5 border ${
+            customerSubTab === 'debts' 
+              ? 'bg-error text-white border-error shadow-md' 
+              : 'glass-card border-white/20 text-on-surface hover:bg-white/10'
+          }`}
+        >
+          <span className="material-symbols-outlined text-sm">assignment_late</span>
+          Qarzlar Daftari ({debtors.length})
+        </button>
+      </div>
+
       {/* Customers List */}
       <div className="flex flex-col gap-4">
         {filteredCustomers.length === 0 ? (
@@ -423,7 +529,10 @@ export default function Customers({
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-3">
                   <div>
                     <h4 className="text-sm font-bold text-on-surface">{client.name}</h4>
-                    <p className="text-[10px] text-on-surface-variant/80 font-bold mt-0.5">{client.phone}</p>
+                    <div className="flex flex-wrap items-center gap-2 mt-0.5">
+                      <span className="text-[10px] text-on-surface-variant/80 font-bold">{client.phone}</span>
+                      {debt > 0 && renderDeadlineBadge(client.paymentDeadline)}
+                    </div>
                   </div>
 
                   <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
@@ -443,6 +552,17 @@ export default function Customers({
                       <span className="material-symbols-outlined text-xs">point_of_sale</span>
                       To'lov olish
                     </button>
+                    {/* Send Reminder (only if customer has debt) */}
+                    {debt > 0 && (
+                      <button 
+                        onClick={() => handleSendReminder(client, debt)}
+                        className="px-3 py-1.5 text-[10px] font-extrabold bg-amber-500 hover:bg-amber-600 text-white rounded-lg hover:opacity-95 transition-all cursor-pointer flex items-center gap-1 shadow-sm"
+                        title="Telegram orqali eslatma yuborish"
+                      >
+                        <span className="material-symbols-outlined text-xs">send</span>
+                        Eslatma
+                      </button>
+                    )}
                     {/* Edit/Delete */}
                     <button 
                       onClick={() => handleOpenEdit(client)}
@@ -488,32 +608,59 @@ export default function Customers({
                     <span className="material-symbols-outlined text-sm">
                       {isHistoryExpanded ? 'expand_less' : 'expand_more'}
                     </span>
-                    Xaridlar tarixi ({historyCount})
+                    Tarixni ko'rish (Xaridlar: {historyCount}, To'lovlar: {client.payments?.length || 0})
                   </button>
 
                   {isHistoryExpanded && (
-                    <div className="mt-2 p-3 bg-white/40 border border-white/20 rounded-lg space-y-2 max-h-48 overflow-y-auto">
-                      {historyCount === 0 ? (
-                        <p className="text-on-surface-variant/70 italic text-[11px]">Hali xaridlar qilinmagan.</p>
-                      ) : (
-                        client.purchases.map(purchase => (
-                          <div 
-                            key={purchase.id} 
-                            className="flex justify-between items-center text-[11px] pb-1 border-b border-white/10 last:border-none"
-                          >
-                            <div>
-                              <p className="font-bold text-on-surface">{purchase.productName}</p>
-                              <p className="text-[9px] text-on-surface-variant/80 font-bold">
-                                {purchase.quantity} dona × {formatMoney(purchase.priceInKRW)}
-                              </p>
+                    <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Purchases Column */}
+                      <div className="p-3 bg-white/40 border border-white/20 rounded-lg space-y-2 max-h-48 overflow-y-auto">
+                        <h5 className="font-extrabold text-[9px] text-on-surface-variant uppercase tracking-wider mb-2 border-b border-white/10 pb-1">Xaridlar tarixi</h5>
+                        {historyCount === 0 ? (
+                          <p className="text-on-surface-variant/70 italic text-[11px]">Hali xaridlar qilinmagan.</p>
+                        ) : (
+                          client.purchases.map(purchase => (
+                            <div 
+                              key={purchase.id} 
+                              className="flex justify-between items-center text-[11px] pb-1 border-b border-white/10 last:border-none"
+                            >
+                              <div>
+                                <p className="font-bold text-on-surface">{purchase.productName}</p>
+                                <p className="text-[9px] text-on-surface-variant/80 font-bold">
+                                  {purchase.quantity} dona × {formatMoney(purchase.priceInKRW)}
+                                </p>
+                              </div>
+                              <div className="text-right">
+                                <p className="font-bold text-primary">{formatMoney(purchase.quantity * purchase.priceInKRW)}</p>
+                                <span className="text-[8px] text-on-surface-variant/50">{purchase.date}</span>
+                              </div>
                             </div>
-                            <div className="text-right">
-                              <p className="font-bold text-primary">{formatMoney(purchase.quantity * purchase.priceInKRW)}</p>
-                              <span className="text-[8px] text-on-surface-variant/50">{purchase.date}</span>
+                          ))
+                        )}
+                      </div>
+
+                      {/* Payments Column */}
+                      <div className="p-3 bg-white/40 border border-white/20 rounded-lg space-y-2 max-h-48 overflow-y-auto">
+                        <h5 className="font-extrabold text-[9px] text-on-surface-variant uppercase tracking-wider mb-2 border-b border-white/10 pb-1">To'lovlar tarixi</h5>
+                        {(!client.payments || client.payments.length === 0) ? (
+                          <p className="text-on-surface-variant/70 italic text-[11px]">Hali to'lovlar qilinmagan.</p>
+                        ) : (
+                          client.payments.map(payment => (
+                            <div 
+                              key={payment.id} 
+                              className="flex justify-between items-center text-[11px] pb-1 border-b border-white/10 last:border-none"
+                            >
+                              <div>
+                                <p className="font-bold text-secondary">+{formatMoney(payment.amountKRW)}</p>
+                                <p className="text-[9px] text-on-surface-variant/80 font-bold">
+                                  {payment.method} {payment.note ? `• ${payment.note}` : ''}
+                                </p>
+                              </div>
+                              <span className="text-[8px] text-on-surface-variant/50 self-center">{payment.date}</span>
                             </div>
-                          </div>
-                        ))
-                      )}
+                          ))
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -772,6 +919,16 @@ export default function Customers({
                 />
               </div>
 
+              <div>
+                <label className="block text-xs font-bold text-on-surface-variant mb-1 uppercase">To'lov muddati (Qarz uchun)</label>
+                <input 
+                  type="date" 
+                  value={editDeadline} 
+                  onChange={(e) => setEditDeadline(e.target.value)}
+                  className="w-full p-2.5 rounded-lg bg-white/40 border border-white/50 text-xs focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none"
+                />
+              </div>
+
               <div className="flex gap-3 justify-end pt-2">
                 <button 
                   type="button"
@@ -837,6 +994,31 @@ export default function Customers({
                     <span className="absolute right-2 text-[9px] text-on-surface-variant font-bold">so'm</span>
                   </div>
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-on-surface-variant mb-1 uppercase">To'lov usuli</label>
+                <select 
+                  value={payMethod} 
+                  onChange={(e) => setPayMethod(e.target.value)}
+                  className="w-full p-2.5 rounded-lg bg-white/40 border border-white/50 text-xs focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none text-black bg-white"
+                >
+                  <option value="Naqd" className="text-black">Naqd (Cash)</option>
+                  <option value="Karta" className="text-black">Plastik karta (Card)</option>
+                  <option value="Bank" className="text-black">Bank o'tkazmasi (Transfer)</option>
+                  <option value="Valyuta" className="text-black">Valyuta (Won/USD)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-on-surface-variant mb-1 uppercase">To'lov izohi</label>
+                <input 
+                  type="text" 
+                  value={payNote} 
+                  onChange={(e) => setPayNote(e.target.value)}
+                  placeholder="Qo'shimcha izoh (ixtiyoriy)..."
+                  className="w-full p-2.5 rounded-lg bg-white/40 border border-white/50 text-xs focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none placeholder-white/50"
+                />
               </div>
 
               <div className="flex gap-3 justify-end pt-2">
